@@ -5,7 +5,7 @@ import { Select, DropdownOption } from "../ui/dropdown";
 
 const destinationTypeOptions: DropdownOption[] = [
   { label: "Food & drink", value: "food_drink" },
-  { label: "Apparell, shoes, accessories, and bags", value: "fashion" },
+  { label: "Apparel, shoes, accessories, and bags", value: "fashion" },
   { label: "Grocery", value: "grocery" },
   { label: "Beer, wine, and spirits", value: "alcohol" },
   { label: "Housewares and hardware", value: "housewares" },

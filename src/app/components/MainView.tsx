@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import Map from './Map';
 import LoginButton from './LoginButton';
 import { RegisterButton } from './RegisterButton';
 import { WalkingDistanceDropdown } from './controls/WalkingDistanceDropdown';
@@ -65,7 +64,7 @@ const MainView: React.FC = () => {
         <DestinationTypeDropdown onChange={setDestinationType} />
       </div>
 
-      {/* Main content - shows map and route selection */}
+      {/* Main content - shows route selection */}
       <div className="flex-1 overflow-y-auto p-4">
         <RouteSelectionCardStack 
           onRouteSelect={handleRouteSelect}
@@ -73,11 +72,6 @@ const MainView: React.FC = () => {
           operatingHours={operatingHours}
           destinationType={destinationType}
         />
-      </div>
-
-      {/* Map at the bottom */}
-      <div className="h-48 md:h-64 relative">
-        <Map latitude={37.7749} longitude={-122.4194} />
       </div>
 
       {/* Slide-over views */}
@@ -88,6 +82,7 @@ const MainView: React.FC = () => {
           walkingDistance={walkingDistance}
           operatingHours={operatingHours}
           destinationType={destinationType}
+          onDestinationSelect={handleDestinationSelect}
         />
       )}
 

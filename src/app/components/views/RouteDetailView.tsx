@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { DestinationCardStack } from "../controls/DestinationCardStack";
 import { FaTimes } from "react-icons/fa";
+
+// Import from the controls directory with the correct relative path
+import { DestinationCardStack } from "../controls";
 
 interface RouteDetailViewProps {
   routeId: string;
@@ -10,6 +12,7 @@ interface RouteDetailViewProps {
   walkingDistance: string;
   operatingHours: string;
   destinationType: string;
+  onDestinationSelect: (destinationId: string) => void;
 }
 
 interface RouteDetail {
@@ -25,7 +28,8 @@ export function RouteDetailView({
   onClose,
   walkingDistance,
   operatingHours,
-  destinationType
+  destinationType,
+  onDestinationSelect
 }: RouteDetailViewProps) {
   const [routeDetail, setRouteDetail] = useState<RouteDetail | null>(null);
   const [loading, setLoading] = useState(true);
@@ -76,11 +80,6 @@ export function RouteDetailView({
         "_blank"
       );
     }
-  };
-
-  const handleDestinationSelect = (destinationId: string) => {
-    // This would be handled by the parent component to open the Destination Detail View
-    console.log(`Selected destination: ${destinationId}`);
   };
 
   return (
@@ -143,7 +142,7 @@ export function RouteDetailView({
               walkingDistance={walkingDistance}
               operatingHours={operatingHours}
               destinationType={destinationType}
-              onDestinationSelect={handleDestinationSelect}
+              onDestinationSelect={onDestinationSelect}
             />
           </div>
         ) : (

@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import LoginButton from './LoginButton';
-import { RegisterButton } from './RegisterButton';
+import { AuthButton } from './AuthButton';
 import { WalkingDistanceDropdown } from './controls/WalkingDistanceDropdown';
 import { OperatingHoursDropdown } from './controls/OperatingHoursDropdown';
 import { DestinationTypeDropdown } from './controls/DestinationTypeDropdown';
@@ -48,12 +47,11 @@ const MainView: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col relative">
-      {/* Header with login/register buttons */}
+      {/* Header with auth button */}
       <header className="p-4 flex justify-between items-center border-b border-gray-200 dark:border-gray-800">
         <h1 className="text-xl font-bold">One Route Away</h1>
         <div className="flex space-x-2">
-          <LoginButton onClick={handleLogin} />
-          <RegisterButton />
+          <AuthButton onClick={handleLogin} />
         </div>
       </header>
 

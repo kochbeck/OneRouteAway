@@ -53,7 +53,7 @@ A dropdown menu allowing the user to select:
 A dropdown menu allowing the user to select:
 
 - Food & drink
-- Apparell, shoes, accessories, and bags
+- Apparel, shoes, accessories, and bags
 - Grocery
 - Beer, wine, and spirits
 - Housewares and hardware

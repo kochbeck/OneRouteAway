@@ -3,10 +3,12 @@
 import React, { useState, useEffect } from "react";
 import { FaTimes, FaStar, FaRegStar } from "react-icons/fa";
 import { Destination } from "../controls/DestinationCardStack";
+import { UserLocation } from "../../utils/location";
 
 interface DestinationDetailViewProps {
   destinationId: string;
   onClose: () => void;
+  userLocation?: UserLocation;
 }
 
 interface DetailedDestination extends Destination {
@@ -22,7 +24,7 @@ interface DetailedDestination extends Destination {
   photos: string[];
 }
 
-export function DestinationDetailView({ destinationId, onClose }: DestinationDetailViewProps) {
+export function DestinationDetailView({ destinationId, onClose, userLocation }: DestinationDetailViewProps) {
   const [destination, setDestination] = useState<DetailedDestination | null>(null);
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);

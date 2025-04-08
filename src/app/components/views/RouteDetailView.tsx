@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
+import { UserLocation } from "../../utils/location";
 
 // Import from the controls directory with the correct relative path
 import { DestinationCardStack } from "../controls";
@@ -13,6 +14,7 @@ interface RouteDetailViewProps {
   operatingHours: string;
   destinationType: string;
   onDestinationSelect: (destinationId: string) => void;
+  userLocation?: UserLocation;
 }
 
 interface RouteDetail {
@@ -29,7 +31,8 @@ export function RouteDetailView({
   walkingDistance,
   operatingHours,
   destinationType,
-  onDestinationSelect
+  onDestinationSelect,
+  userLocation
 }: RouteDetailViewProps) {
   const [routeDetail, setRouteDetail] = useState<RouteDetail | null>(null);
   const [loading, setLoading] = useState(true);

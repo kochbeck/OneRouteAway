@@ -1,14 +1,14 @@
 import { getFirebase } from "./firebase";
 import { getDatabase, ref, child, set, remove } from "firebase/database";
+import { SERVER_GOOGLE_MAPS_API_KEY } from "./env";
 
 export async function searchLocations(query: string): Promise<any[]> {
-  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
-  if (!apiKey) {
-    console.error("GOOGLE_MAPS_API_KEY is not set in the environment variables.");
+  if (!SERVER_GOOGLE_MAPS_API_KEY) {
+    console.error("Google Maps API key is not set in the environment variables.");
     return [];
   }
 
-  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(query)}&key=${apiKey}`;
+  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(query)}&key=${SERVER_GOOGLE_MAPS_API_KEY}`;
 
   try {
     const response = await fetch(url);
@@ -70,13 +70,12 @@ export async function unsetFavoriteDestination(placeId: string): Promise<void> {
 }
 
 export async function getPlaceDetails(placeId: string): Promise<any> {
-  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
-  if (!apiKey) {
-    console.error("GOOGLE_MAPS_API_KEY is not set in the environment variables.");
+  if (!SERVER_GOOGLE_MAPS_API_KEY) {
+    console.error("Google Maps API key is not set in the environment variables.");
     return;
   }
 
-  const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${apiKey}`;
+  const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${SERVER_GOOGLE_MAPS_API_KEY}`;
 
   try {
     const response = await fetch(url);

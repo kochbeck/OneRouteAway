@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { RouteCard } from "./RouteCard";
+import { UserLocation } from "../../utils/location";
 
 // This would come from your API call to 511.org in a real implementation
 export interface RouteData {
@@ -19,13 +20,15 @@ interface RouteSelectionCardStackProps {
   walkingDistance: string; // in minutes
   operatingHours: string;
   destinationType: string;
+  userLocation?: UserLocation;
 }
 
 export function RouteSelectionCardStack({ 
   onRouteSelect, 
   walkingDistance, 
   operatingHours, 
-  destinationType 
+  destinationType,
+  userLocation
 }: RouteSelectionCardStackProps) {
   const [loading, setLoading] = useState(true);
   const [routes, setRoutes] = useState<RouteData[]>([]);
@@ -33,10 +36,21 @@ export function RouteSelectionCardStack({
 
   // Mock data - in a real app, this would be fetched from the 511.org API
   useEffect(() => {
+    // If we don't have user location yet, don't try to load routes
+    if (!userLocation) {
+      setLoading(true);
+      return;
+    }
+    
     // Simulate API call
+    setLoading(true);
     setTimeout(() => {
       try {
+        // Log location data for debugging
+        console.log('Finding routes near:', userLocation);
+        
         // This would be replaced with actual API calls in the final implementation
+        // which would use the user's location to find nearby routes
         const mockRoutes: RouteData[] = [
           {
             id: "1",
@@ -67,7 +81,15 @@ export function RouteSelectionCardStack({
           },
         ];
         
-        setRoutes(mockRoutes);
+        // Filter routes based on the walking distance preference
+        const filteredRoutes = mockRoutes.filter(route => {
+          // In a real app, this would calculate actual distance to the stop
+          // Here we're just demonstrating the concept
+          const walkingMinutes = parseInt(walkingDistance);
+          return true; // For mock data, show all routes
+        });
+        
+        setRoutes(filteredRoutes);
         setLoading(false);
       } catch (err) {
         setError("Failed to load routes. Please try again.");
@@ -87,7 +109,7 @@ export function RouteSelectionCardStack({
     }, 60000); // Update every 60 seconds as specified in the README
 
     return () => clearInterval(updateInterval);
-  }, [walkingDistance, operatingHours, destinationType]);
+  }, [walkingDistance, operatingHours, destinationType, userLocation]);
 
   if (loading) {
     return (

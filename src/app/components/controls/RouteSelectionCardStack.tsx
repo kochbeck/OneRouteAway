@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { RouteCard } from "./RouteCard";
 import { UserLocation } from "../../utils/location";
+import { RefreshCw } from "lucide-react";
 
 // This would come from your API call to 511.org in a real implementation
 export interface RouteData {
@@ -34,8 +35,8 @@ export function RouteSelectionCardStack({
   const [routes, setRoutes] = useState<RouteData[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  // Mock data - in a real app, this would be fetched from the 511.org API
-  useEffect(() => {
+  // Function to fetch routes data
+  const fetchRoutes = useCallback(() => {
     // If we don't have user location yet, don't try to load routes
     if (!userLocation) {
       setLoading(true);
@@ -82,20 +83,26 @@ export function RouteSelectionCardStack({
         ];
         
         // Filter routes based on the walking distance preference
-        const filteredRoutes = mockRoutes.filter(route => {
+        const filteredRoutes = mockRoutes.filter(() => {
           // In a real app, this would calculate actual distance to the stop
           // Here we're just demonstrating the concept
-          const walkingMinutes = parseInt(walkingDistance);
+          // const walkingMinutes = parseInt(walkingDistance);
           return true; // For mock data, show all routes
         });
         
         setRoutes(filteredRoutes);
         setLoading(false);
-      } catch (err) {
+      } catch (error) {
+        console.error("Failed to load routes:", error);
         setError("Failed to load routes. Please try again.");
         setLoading(false);
       }
     }, 1500); // Simulate network delay
+  }, [userLocation]);
+
+  // Mock data - in a real app, this would be fetched from the 511.org API
+  useEffect(() => {
+    fetchRoutes();
 
     // Setup update interval for ETAs (every 60 seconds per requirements)
     const updateInterval = setInterval(() => {
@@ -109,7 +116,11 @@ export function RouteSelectionCardStack({
     }, 60000); // Update every 60 seconds as specified in the README
 
     return () => clearInterval(updateInterval);
-  }, [walkingDistance, operatingHours, destinationType, userLocation]);
+  }, [walkingDistance, operatingHours, destinationType, userLocation, fetchRoutes]);
+
+  const handleRefresh = () => {
+    fetchRoutes();
+  };
 
   if (loading) {
     return (
@@ -150,7 +161,17 @@ export function RouteSelectionCardStack({
 
   return (
     <div className="mt-4">
-      <h2 className="text-xl font-semibold mb-3">Available Routes Near You</h2>
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="text-xl font-semibold">Available Routes Near You</h2>
+        <button 
+          className="p-1.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+          onClick={handleRefresh}
+          aria-label="Refresh routes"
+          disabled={loading}
+        >
+          <RefreshCw size={20} className={`text-blue-600 ${loading ? 'animate-spin' : ''}`} />
+        </button>
+      </div>
       <div className="space-y-3">
         {routes.map((route) => (
           <RouteCard 

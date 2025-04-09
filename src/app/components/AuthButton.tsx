@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { UserCircle } from 'lucide-react';
 
 interface AuthButtonProps {
   onClick?: () => void;
@@ -9,10 +10,11 @@ interface AuthButtonProps {
 export function AuthButton({ onClick }: AuthButtonProps) {
   return (
     <button
-      className="py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+      className="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-colors flex items-center justify-center"
       onClick={onClick}
+      aria-label="Sign In or Register"
     >
-      Sign In / Register
+      <UserCircle size={24} />
     </button>
   );
 }
